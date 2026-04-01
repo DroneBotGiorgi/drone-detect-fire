@@ -1,0 +1,29 @@
+paths:
+  adb_path: "C:/Users/Docenti/Downloads/scrcpy-win64-v3.3.4/adb.exe"
+  ffmpeg_path: "C:/Users/Docenti/Downloads/scrcpy-win64-v3.3.4/bin/ffmpeg.exe"
+
+capture:
+  max_fps: 30
+  bitrate_mbps: 16
+  use_original_resolution: true
+  resize_width: 1280
+  resize_height: 720
+  restart_on_eof: true
+
+runtime:
+  window_name: "Drone Detector Fire"
+  show_metrics: true
+  log_file: "logs/runtime.log"
+  yolo_interval_sec: 0.5
+
+models:
+  default: "best_test"
+  registry:
+    best_test:
+      path: "models/best_test.pt"
+      conf: 0.35
+      iou: 0.45
+    best_test_tight:
+      path: "models/best_test.pt"
+      conf: 0.40
+      iou: 0.45

@@ -17,7 +17,7 @@ runtime:
   yolo_interval_sec: 0.5
 
 models:
-  default: "best_test"
+  default: "caruso_fuoco1"
   registry:
     best_test:
       path: "models/best_test.pt"
@@ -26,4 +26,8 @@ models:
     best_test_tight:
       path: "models/best_test.pt"
       conf: 0.40
+      iou: 0.45
+    caruso_fuoco1:                  
+      path: "models/caruso_fuoco1.pt" # <-- 3. Inserisci il nome del TUO file
+      conf: 0.35
       iou: 0.45

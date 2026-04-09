@@ -63,4 +63,4 @@ python run.py --config config/settings.yaml --gui
 
 ## Autore
 
-Mirto Musci
+Mirto Musci, Copyright 2026

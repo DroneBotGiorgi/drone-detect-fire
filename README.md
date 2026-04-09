@@ -60,3 +60,7 @@ python run.py --config config/settings.yaml --gui
   - riduci risoluzione (`use_original_resolution: false` + `resize_width/height`)
   - aumenta `runtime.yolo_interval_sec` per ridurre il carico inferenza (es. `0.5` = YOLO ogni 500 ms)
   - usa GPU CUDA quando disponibile
+
+## Autore
+
+Mirto Musci

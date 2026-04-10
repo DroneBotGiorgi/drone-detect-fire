@@ -9,6 +9,65 @@ import cv2
 import numpy as np
 
 
+class WebcamCapture:
+    def __init__(
+        self,
+        camera_index: int,
+        max_fps: int,
+        width: Optional[int] = None,
+        height: Optional[int] = None,
+        restart_on_eof: bool = True,
+    ) -> None:
+        self.camera_index = camera_index
+        self.max_fps = max_fps
+        self.width = width
+        self.height = height
+        self.restart_on_eof = restart_on_eof
+
+        self._cap: Optional[cv2.VideoCapture] = None
+        self._mode = "webcam"
+
+    @property
+    def mode(self) -> str:
+        return self._mode
+
+    def start(self) -> None:
+        cap = cv2.VideoCapture(self.camera_index, cv2.CAP_DSHOW)
+        if not cap.isOpened():
+            cap.release()
+            cap = cv2.VideoCapture(self.camera_index)
+
+        if not cap.isOpened():
+            raise RuntimeError(f"Unable to open webcam index {self.camera_index}.")
+
+        if self.width:
+            cap.set(cv2.CAP_PROP_FRAME_WIDTH, float(self.width))
+        if self.height:
+            cap.set(cv2.CAP_PROP_FRAME_HEIGHT, float(self.height))
+        if self.max_fps > 0:
+            cap.set(cv2.CAP_PROP_FPS, float(self.max_fps))
+
+        self._cap = cap
+
+    def read(self) -> Optional[np.ndarray]:
+        if self._cap is None:
+            return None
+
+        ok, frame = self._cap.read()
+        if ok:
+            return frame
+
+        if self.restart_on_eof:
+            self.stop()
+            self.start()
+        return None
+
+    def stop(self) -> None:
+        if self._cap is not None:
+            self._cap.release()
+        self._cap = None
+
+
 def query_device_resolution(adb_path: Path) -> Tuple[int, int]:
     command = [str(adb_path), "shell", "wm", "size"]
     result = subprocess.run(command, capture_output=True, text=True, check=False)

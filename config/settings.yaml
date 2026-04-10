@@ -1,6 +1,7 @@
 paths:
-  adb_path: "D:/Scuola/4°_superiore/Dronebot/scrcpy/adb.exe"
-  ffmpeg_path: "D:/Scuola/4°_superiore/Dronebot/scrcpy/ffmpeg.exe"
+  adb_path: "tools/platform-tools/adb.exe"
+  ffmpeg_path: "tools/ffmpeg/bin/ffmpeg.exe"
+  scrcpy_path: "tools/scrcpy/scrcpy-win64-v3.3.1/scrcpy.exe"
 
 capture:
   max_fps: 30
@@ -14,18 +15,18 @@ runtime:
   window_name: "Drone Detector Fire"
   show_metrics: true
   log_file: "logs/runtime.log"
-  yolo_interval_sec: 0.5
+  yolo_interval_sec: 0.0
+  detection_conf_threshold: 0.6
+  detection_iou_threshold: 0.30
+  detection_max_det: 12
+  detection_imgsz: 640
 
 models:
-  default: "best_test_tight"
+  default: "best_test"
   registry:
     best_test:
       path: "models/best_test.pt"
       conf: 0.35
-      iou: 0.45
-    best_test_tight:
-      path: "models/best_test.pt"
-      conf: 0.40
       iou: 0.45
     caruso_fuoco1:                  
       path: "models/caruso_fuoco1.pt" 

@@ -30,6 +30,10 @@ class RuntimeConfig:
     show_metrics: bool
     log_file: Path
     yolo_interval_sec: float
+    detection_conf_threshold: float
+    detection_iou_threshold: float
+    detection_max_det: int
+    detection_imgsz: int
 
 
 @dataclass
@@ -80,6 +84,10 @@ def load_config(config_path: Path) -> AppConfig:
         show_metrics=bool(raw["runtime"]["show_metrics"]),
         log_file=_resolve(raw["runtime"]["log_file"], root),
         yolo_interval_sec=float(raw["runtime"].get("yolo_interval_sec", 0.0)),
+        detection_conf_threshold=float(raw["runtime"].get("detection_conf_threshold", 0.7)),
+        detection_iou_threshold=float(raw["runtime"].get("detection_iou_threshold", 0.30)),
+        detection_max_det=int(raw["runtime"].get("detection_max_det", 12)),
+        detection_imgsz=int(raw["runtime"].get("detection_imgsz", 640)),
     )
 
     registry: Dict[str, ModelConfig] = {}

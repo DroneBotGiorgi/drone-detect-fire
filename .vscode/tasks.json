@@ -1,0 +1,58 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "adb: wait usb",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "$adb='${workspaceFolder}/tools/platform-tools/adb.exe'; if (!(Test-Path $adb)) { Write-Error \"adb.exe non trovato in tools/platform-tools\"; exit 1 }; & $adb wait-for-device; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; & $adb devices"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "adb: connect tcp all-in-one",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "$adb='${workspaceFolder}/tools/platform-tools/adb.exe'; if (!(Test-Path $adb)) { Write-Error \"adb.exe non trovato in tools/platform-tools\"; exit 1 }; $target='${input:adbHost}:${input:adbPort}'; & $adb connect $target; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; & $adb -s $target wait-for-device; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; & $adb devices"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "adb: disconnect tcp",
+      "type": "shell",
+      "command": "powershell",
+      "args": [
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-Command",
+        "$adb='${workspaceFolder}/tools/platform-tools/adb.exe'; if (!(Test-Path $adb)) { Write-Error \"adb.exe non trovato in tools/platform-tools\"; exit 1 }; & $adb disconnect ${input:adbHost}:${input:adbPort}; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }; & $adb devices"
+      ],
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "adbHost",
+      "type": "promptString",
+      "description": "ADB host/IP (es. 192.168.1.80)",
+      "default": "192.168.1.80"
+    },
+    {
+      "id": "adbPort",
+      "type": "promptString",
+      "description": "ADB port",
+      "default": "5555"
+    }
+  ]
+}

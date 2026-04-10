@@ -1,0 +1,85 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Webcam (index 0)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/run.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "--config",
+        "${workspaceFolder}/config/settings.yaml",
+        "--source",
+        "webcam",
+        "--webcam-index",
+        "0",
+        "--gui"
+      ]
+    },
+    {
+      "name": "Debug Webcam (custom index)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/run.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "--config",
+        "${workspaceFolder}/config/settings.yaml",
+        "--source",
+        "webcam",
+        "--webcam-index",
+        "${input:webcamIndex}",
+        "--gui"
+      ]
+    },
+    {
+      "name": "Debug ADB USB (wait + run)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/run.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "preLaunchTask": "adb: wait usb",
+      "args": [
+        "--config",
+        "${workspaceFolder}/config/settings.yaml",
+        "--source",
+        "adb",
+        "--gui"
+      ]
+    },
+    {
+      "name": "Debug ADB TCP (connect + run all-in-one)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/run.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "preLaunchTask": "adb: connect tcp all-in-one",
+      "args": [
+        "--config",
+        "${workspaceFolder}/config/settings.yaml",
+        "--source",
+        "adb",
+        "--gui"
+      ]
+    },
+    {
+      "name": "Bootstrap Tools (ADB/FFmpeg/Scrcpy)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File ${workspaceFolder}/scripts/setup_tools.ps1"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "webcamIndex",
+      "type": "promptString",
+      "description": "Indice webcam",
+      "default": "0"
+    }
+  ]
+}

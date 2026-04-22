@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 import yaml
 
@@ -40,6 +40,7 @@ class RuntimeConfig:
 class PathsConfig:
     adb_path: Path
     ffmpeg_path: Path
+    rtmp_url: Optional[str]
 
 
 @dataclass
@@ -68,6 +69,11 @@ def load_config(config_path: Path) -> AppConfig:
     paths = PathsConfig(
         adb_path=_resolve(raw["paths"]["adb_path"], root),
         ffmpeg_path=_resolve(raw["paths"]["ffmpeg_path"], root),
+        rtmp_url=(
+            str(raw["paths"].get("rtmp_url")).strip()
+            if raw.get("paths", {}).get("rtmp_url")
+            else None
+        ),
     )
 
     capture = CaptureConfig(

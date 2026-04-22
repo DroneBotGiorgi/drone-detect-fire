@@ -5,6 +5,7 @@
       "name": "Debug Webcam (index 0)",
       "type": "debugpy",
       "request": "launch",
+      "python": "${workspaceFolder}/.venv/Scripts/python.exe",
       "program": "${workspaceFolder}/run.py",
       "console": "integratedTerminal",
       "justMyCode": true,
@@ -22,6 +23,7 @@
       "name": "Debug Webcam (custom index)",
       "type": "debugpy",
       "request": "launch",
+      "python": "${workspaceFolder}/.venv/Scripts/python.exe",
       "program": "${workspaceFolder}/run.py",
       "console": "integratedTerminal",
       "justMyCode": true,
@@ -39,6 +41,7 @@
       "name": "Debug ADB USB (wait + run)",
       "type": "debugpy",
       "request": "launch",
+      "python": "${workspaceFolder}/.venv/Scripts/python.exe",
       "program": "${workspaceFolder}/run.py",
       "console": "integratedTerminal",
       "justMyCode": true,
@@ -55,6 +58,7 @@
       "name": "Debug ADB TCP (connect + run all-in-one)",
       "type": "debugpy",
       "request": "launch",
+      "python": "${workspaceFolder}/.venv/Scripts/python.exe",
       "program": "${workspaceFolder}/run.py",
       "console": "integratedTerminal",
       "justMyCode": true,
@@ -64,6 +68,24 @@
         "${workspaceFolder}/config/settings.yaml",
         "--source",
         "adb",
+        "--gui"
+      ]
+    },
+    {
+      "name": "Debug RTMP (prompt url)",
+      "type": "debugpy",
+      "request": "launch",
+      "python": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "program": "${workspaceFolder}/run.py",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "--config",
+        "${workspaceFolder}/config/settings.yaml",
+        "--source",
+        "rtmp",
+        "--rtmp-url",
+        "${input:rtmpUrl}",
         "--gui"
       ]
     },
@@ -80,6 +102,12 @@
       "type": "promptString",
       "description": "Indice webcam",
       "default": "0"
+    },
+    {
+      "id": "rtmpUrl",
+      "type": "promptString",
+      "description": "RTMP URL (es. rtmp://127.0.0.1/live/stream)",
+      "default": "rtmp://127.0.0.1/live/stream"
     }
   ]
 }

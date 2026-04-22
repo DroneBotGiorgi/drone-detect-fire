@@ -2,6 +2,7 @@ paths:
   adb_path: "tools/platform-tools/adb.exe"
   ffmpeg_path: "tools/ffmpeg/bin/ffmpeg.exe"
   scrcpy_path: "tools/scrcpy/scrcpy-win64-v3.3.1/scrcpy.exe"
+  rtmp_url: ""
 
 capture:
   max_fps: 30

@@ -5,7 +5,7 @@ import logging
 import threading
 from pathlib import Path
 
-from capture import ADBFFmpegCapture, WebcamCapture, query_device_resolution
+from capture import ADBFFmpegCapture, RTMPCapture, WebcamCapture, query_device_resolution
 from config import load_config
 from detector import YoloDetector
 from gui import ControlPanel
@@ -30,15 +30,21 @@ def cli_main() -> int:
     parser.add_argument("--gui", action="store_true", help="Enable Tkinter control panel")
     parser.add_argument(
         "--source",
-        choices=("adb", "webcam"),
+        choices=("adb", "webcam", "rtmp"),
         default="adb",
-        help="Video source: adb (Android) or webcam (testing fallback)",
+        help="Video source: adb (Android), webcam, or rtmp",
     )
     parser.add_argument(
         "--webcam-index",
         type=int,
         default=0,
         help="Webcam device index (used when --source webcam)",
+    )
+    parser.add_argument(
+        "--rtmp-url",
+        type=str,
+        default=None,
+        help="RTMP URL (used when --source rtmp), es: rtmp://127.0.0.1/live/stream",
     )
     args = parser.parse_args()
 
@@ -53,6 +59,20 @@ def cli_main() -> int:
     if args.source == "webcam":
         capture = WebcamCapture(
             camera_index=args.webcam_index,
+            max_fps=cfg.capture.max_fps,
+            width=cfg.capture.resize_width,
+            height=cfg.capture.resize_height,
+            restart_on_eof=cfg.capture.restart_on_eof,
+        )
+    elif args.source == "rtmp":
+        rtmp_url = args.rtmp_url or cfg.paths.rtmp_url
+        if not rtmp_url:
+            raise ValueError(
+                "RTMP source selected but no URL provided. Use --rtmp-url or set paths.rtmp_url in config."
+            )
+
+        capture = RTMPCapture(
+            stream_url=rtmp_url,
             max_fps=cfg.capture.max_fps,
             width=cfg.capture.resize_width,
             height=cfg.capture.resize_height,
